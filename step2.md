@@ -17,7 +17,7 @@
 
 Terraformを使う上で最低限知っていた方がいいと思うことを記載しています。
 
-`step2`ディレクトリを作成、移動して実施ください。以降のプラクティスはすべて`step2`ディレクトリ内で行う想定です。
+`step2`ディレクトリを作成、移動して実施ください。以降のプラクティスはすべて`step2`ディレクトリ内で行う想定です。ファイルはステップ内で同じものを続けて使ったください。
 
 ## 2-1. Terraformの基本的な設定
 
@@ -54,7 +54,7 @@ Terraformはクラウドプロバイダーを使用してリソースをデプ�
   - CIDRブロック:10.1.0.0/16
   - Name:tf-test、Env:terraform-practice、Owner:自分の名前 のタグを設定
 - initしてplanで内容を確認しapplyします。
-- マネコンまたは以下コマンドでリソースが作成されたことを確認します。
+- マネージメントコンソールまたは以下コマンドでリソースが作成されたことを確認します。
 
 ``` sh
 $ aws ec2 describe-vpcs --filters "Name=tag-value,Values=tf-test"
@@ -72,7 +72,7 @@ $ aws ec2 describe-vpcs --filters "Name=tag-value,Values=tf-test"
   - CIDRブロック:10.1.10.0/24
   - Name:tf-test、Env:terraform-practice、Owner:自分の名前 のタグを設定
 - planしてapplyします。
-- マネコンまたは以下コマンドでリソースが作成されたことを確認します。
+- マネージメントコンソールまたは以下コマンドでリソースが作成されたことを確認します。
 
 ``` sh
 $ aws ec2 describe-subnets --filters "Name=tag-value,Values=tf-test"
@@ -134,7 +134,7 @@ Terraformを実行したディレクトリを見ると`terraform.tfstate`と`ter
 planすると作成になりました。つまり、Terraform的には今まで作成したVPCやサブネットはなかったことになっています。このままapplyします。
 
 - applyします。
-- マネコンまたは以下コマンドでVPCおよびサブネットを確認します。それぞれ2つずつ表示されます。
+- マネージメントコンソールまたは以下コマンドでVPCおよびサブネットを確認します。それぞれ2つずつ表示されます。
 
 ``` sh
 $ aws ec2 describe-vpcs --filters "Name=tag-value,Values=tf-test"

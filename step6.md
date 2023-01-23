@@ -1,7 +1,13 @@
-その他便利なコマンド
+tfstateのbackend化
+
+その他便利なterraformコマンド
 
 複数のリージョンを使う
 
 特定のリース、モジュールだけ操作
 
-tfstateのbackend化
+リソースのファイルは分けてもいい
+
+リソースの依存関係は自動でやってくれるが明示的にdepends_onさせることもできる
+
+ignore_changesで変更を無視できる

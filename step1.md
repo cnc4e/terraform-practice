@@ -109,7 +109,7 @@ Do you want to perform these actions?
 Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 ```
 
-マネコンや以下コマンドでTerraformコードのリソースがデプロイされていることを確認できます。
+マネージメントコンソールや以下コマンドでTerraformコードのリソースがデプロイされていることを確認できます。
 
 ``` sh
 $ aws ec2 describe-vpcs --filters "Name=tag-value,Values=tf-test"
@@ -132,4 +132,4 @@ Do you really want to destroy all resources?
 Destroy complete! Resources: 1 destroyed.
 ```
 
-applyの時と同様、マネコンやAWSコマンドでTerraformコードのリソースが削除されていることを確認できます。
+applyの時と同様、マネージメントコンソールやAWSコマンドでTerraformコードのリソースが削除されていることを確認できます。

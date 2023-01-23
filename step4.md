@@ -10,7 +10,7 @@
 
 Terraformにif文はありませんが、条件式を使えば似たようなことができます。
 
-`step4`ディレクトリを作成、移動して実施ください。以降のプラクティスはすべて`step4`ディレクトリ内で行う想定です。`versions.tf`を作成しておいてください。必要に応じて`main.tf`、`varibales.tf`、`output.tf`、`terraform.tfvars`も作成してください。すべてのリソースにはStep=step4のタグを設定します。
+`step4`ディレクトリを作成、移動して実施ください。以降のプラクティスはすべて`step4`ディレクトリ内で行う想定です。`versions.tf`を作成しておいてください。必要に応じて`main.tf`、`varibales.tf`、`output.tf`、`terraform.tfvars`も作成してください。すべてのリソースにはStep=step4のタグを設定します。ファイルはステップ内で同じものを続けて使ったください。
 
 ## 4-1. 三項演算子によるパラメータの分岐
 
@@ -19,15 +19,15 @@ Terraformにif文はありませんが、条件式を使えば似たようなこ
 **プラクティス**
 
 - 以下の変数を設定します。
-  - vpc-cird: "10.1.0.0/16"
+  - vpc-cidr: "10.1.0.0/16"
   - dev: true (bool型です。) 
 - [vpc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc)を作成します。
-  - cidrは変数vpc-cirdで指定します。
+  - cidrは変数vpc-cidrで指定します。
   - `enable_dns_support`の値を変数devがtrueの場合は`true`を、そうでない場合は`false`を設定するようにします。
   - `enable_dns_hostnames`の値も変数devがtrueの場合は`true`を、そうでない場合は`false`を設定するようにします。
-- vpcのidを表示します。
+- vpcのidを表示するようにします。
 - initしてplanで内容を確認しapplyします。
-- マネコンまたは以下コマンドでリソースが作成されたことを確認します。
+- マネージメントコンソールまたは以下コマンドでリソースが作成されたことを確認します。
 
 ``` sh
 $ aws ec2 describe-vpc-attribute --attribute enableDnsSupport --vpc-id <vpc id>
@@ -36,7 +36,7 @@ $ aws ec2 describe-vpc-attribute --attribute enableDnsHostnames --vpc-id <vpc id
 
 - 変数devの値をfalseにします。
 - planしてapplyします。in placeで値が変更になります。
-- マネコンまたは以下コマンドでリソースが作成されたことを確認します。
+- マネージメントコンソールまたは以下コマンドでリソースが作成されたことを確認します。
 
 ``` sh
 $ aws ec2 describe-vpc-attribute --attribute enableDnsSupport --vpc-id <vpc id>
@@ -51,19 +51,19 @@ $ aws ec2 describe-vpc-attribute --attribute enableDnsHostnames --vpc-id <vpc id
 
 ### ただ分岐させたい場合
 
-countの場合条件に一致する時はcountの値を`1`でループを回し、一致しない場合はcountの値で`0`を指定します。count=0だとループしないのでリソースが作られません。
+countの場合、条件に一致する時はcountの値を`1`にし、一致しない場合は`0`を指定します。count=0だとループしないのでリソースが作られません。
 
-for_eachの場合、条件に一致する時は`{ dummy = "dummy" }`等のダミーマップでループを回し、一致しない場合は空のマップ`{}`を指定します。空マップだとループしないのでリソースが作られません。
+for_eachの場合、条件に一致する時は`{ dummy = "dummy" }`等のダミーマップにし、一致しない場合は空のマップ`{}`を指定します。空マップだとループしないのでリソースが作られません。
 
 **プラクティス**
 
 - 以下の変数を追加で設定します。
   - subnet-cidr: "10.1.10.0/24"　(stringです)
 - [subnet](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet)を作成します。
-  - 変数devがtrueの場合はサブネットを作成します。そうでない場合はサブネットを作成しません。(count/for_eachどちらでもいいです)
+  - 変数devがtrueの場合はサブネットを作成します。そうでない場合はサブネットを作成しません。(count/for_eachどちらを使ってもいいです)
   - cidrはsubnet-cidrで指定します。
 - planしてapplyします。
-- マネコンまたは以下コマンドでリソースが作成されたことを確認します。
+- マネージメントコンソールまたは以下コマンドでリソースが作成されたことを確認します。
 
 ``` sh
 $ aws ec2 describe-subnets --filters "Name=tag-value,Values=step4"
@@ -80,12 +80,12 @@ for_eachの場合、条件に一致する時はmap/objyectでループを回し�
 
 **プラクティス**
 
-- 変数subnet-cidrをsubnet-cidrsに変更し、リスト型で "10.1.10.0/24","10.1.20.0/24"を設定します。
+- 変数subnet-cidrをsubnet-cidrsに変更し、リスト型で ["10.1.10.0/24","10.1.20.0/24"] を設定します。
 - [subnet](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet)を作成します。
-  - 変数devがtrueの場合はサブネットを作成します。サブネットはsubnet-cidrsに設定されている数だけ作成します。変数devがfalseの場合はサブネットを作成しません。(count/for_eachどちらでもいいです)
+  - 変数devがtrueの場合はサブネットを作成します。サブネットはsubnet-cidrsに設定されている数だけ作成します。変数devがfalseの場合はサブネットを作成しません。(count/for_eachどちらを使ってもいいです)
   - cidrはsubnet-cidrsの値で指定します。
 - planしてapplyします。
-- マネコンまたは以下コマンドでリソースが作成されたことを確認します。
+- マネージメントコンソールまたは以下コマンドでリソースが作成されたことを確認します。
 
 ``` sh
 $ aws ec2 describe-subnets --filters "Name=tag-value,Values=step4"
