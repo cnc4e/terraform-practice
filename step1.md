@@ -1,3 +1,12 @@
+- [ステップ1 Terraformを使う](#ステップ1-terraformを使う)
+  - [実行準備](#実行準備)
+    - [Terraform CLIのインストール](#terraform-cliのインストール)
+    - [AWSプロファイルの準備](#awsプロファイルの準備)
+  - [基礎的なterraformの使い方](#基礎的なterraformの使い方)
+    - [コードの準備](#コードの準備)
+    - [Terraformでリソースをデプロイ](#terraformでリソースをデプロイ)
+    - [Terraformでデプロイしたリソースを削除](#terraformでデプロイしたリソースを削除)
+
 # ステップ1 Terraformを使う
 
 まずはTerraformを使って簡単なリソースをデプロイしてみましょう。Terraform CLIを端末にインストールし、サンプルのコードを使ってリソースをデプロイしてみます。
