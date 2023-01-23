@@ -96,4 +96,4 @@ $ aws ec2 describe-subnets --filters "Name=tag-value,Values=step4"
 
 # 後片付け
 
-- destoryします。または、main.tfをすべてコメントアウトしてapplyします。
+- destoryします。またはmain.tfをすべてコメントアウトしてapplyします。

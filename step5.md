@@ -62,4 +62,4 @@
 
 # 後片付け
 
-- destoryします。または、main.tfをすべてコメントアウトしてapplyします。
+- destoryします。またはmain.tfをすべてコメントアウトしてapplyします。

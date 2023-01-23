@@ -23,7 +23,7 @@ Terraformを使う上で最低限知っていた方がいいと思うことを�
 
 ### プロバイダーの設定をする
 
-Terraformはプロバイダーを使ってリソースのデプロイをします。対応したプロバイダーは[こちら](https://registry.terraform.io/browse/providers)にまとまっています。AWSプロバイダーの場合はリソースをデプロイするリージヨンを設定できます。設定は[providerブロック](https://developer.hashicorp.com/terraform/language/providers/configuration)に書きます。providerブロックもどこに書いても良いですが、`versions.tf`ファイルに書くのがよいでしょう。
+Terraformはプロバイダーを使ってリソースのデプロイをします。対応したプロバイダーは[こちら](https://registry.terraform.io/browse/providers)にあります。AWSプロバイダーの場合はリソースをデプロイするリージヨンを設定できます。設定は[providerブロック](https://developer.hashicorp.com/terraform/language/providers/configuration)に書きます。providerブロックもどこに書いても良いですが、`versions.tf`ファイルに書くのがよいでしょう。
 
 **プラクティス**
 
@@ -82,7 +82,7 @@ $ aws ec2 describe-subnets --filters "Name=tag-value,Values=tf-test"
 
 値を変数にして外だしすることもできます。後のStepであつかうモジュール化をする場合によく使います。変数化したい値ごとに[valiablesブロック](https://developer.hashicorp.com/terraform/language/values/variables)で記述します。valiablesブロックもどこに書いてもいいですが、`valiables.tf`ファイルにまとめて書くのがよいでしょう。valiablesブロックで宣言した変数はリソース内で`var.名前`と指定すれば参照できます。valiabelsブロックには[type](https://developer.hashicorp.com/terraform/language/values/variables#type-constraints)が指定でき値の制限ができます。基本的にtypeは指定するようにしましょう。また、[description](https://developer.hashicorp.com/terraform/language/values/variables#input-variable-documentation)で値の説明を書けます。基本的にdescriptionも記述するようにしましょう。
 
-variablesブロックで宣言した変数に値を設定するには[いくつかの方法](https://developer.hashicorp.com/terraform/language/values/variables#assigning-values-to-root-module-variables)があります。`terraform.tfvars`ファイルに`変数名=値`の形式で指定することが多いです。
+variablesブロックで宣言した変数に値を設定するには[いくつかの方法](https://developer.hashicorp.com/terraform/language/values/variables#assigning-values-to-root-module-variables)があります。`terraform.tfvars`ファイルに`変数名=値`の形式で指定することが多いと思います。
 
 **プラクティス**
 
@@ -108,7 +108,7 @@ variablesブロックで宣言した変数に値を設定するには[いくつ�
 
 ## 2-6. デプロイしたリソースの情報を確認にする
 
-Terraformで作成したリソースの情報(ARNやIDなど)を確認するには[outputブロック](https://developer.hashicorp.com/terraform/language/values/outputs)に記述します。後のStepであつかうモジュール化をする場合はよく使います。outputブロックもどこに書いてもいいですが、`ouput.tf`ファイルにまとめて書くのがいいでしょう。outputする値の指定はリソースの属性参照と同じです。また、リソース名だけを指定すると、すべての属性を表示できます。
+Terraformで作成したリソースの情報(ARNやIDなど)を確認するには[outputブロック](https://developer.hashicorp.com/terraform/language/values/outputs)に記述します。outputブロックもどこに書いてもいいですが、`ouput.tf`ファイルにまとめて書くのがいいでしょう。outputする値の指定はリソースの属性参照と同じく`リソースタイプ.リソース名.属性名`です。また、属性名を省略し`リソースタイプ.リソース名`と指定すると、そのリソースのすべての属性を表示できます。
 
 **プラクティス**
 
@@ -121,11 +121,11 @@ Terraformで作成したリソースの情報(ARNやIDなど)を確認するに�
 
 ## 2-7. tfstateについて
 
-Terraformを実行したディレクトリを見ると`terraform.tfstate`と`terraform.tfstate.backup`というファイルがあります。これらのファイルはTerraformがデプロイしたリソースを記録するものです。中身を確認するとJSON形式でデプロイしたリソースの情報が書かれています。このファイルはとても大事です。**絶対に消さないようにしましょう。**もし消してしまった場合、今までデプロイしたリソースはTerraformの管理外となってしまいます。
+Terraformを実行したディレクトリを見ると`terraform.tfstate`と`terraform.tfstate.backup`というファイルがあります。これらのファイルはTerraformがデプロイしたリソースを記録するものです。中身を確認するとJSON形式でデプロイしたリソースの情報が書かれています。このファイルはとても大事です。`絶対に消さないようにしましょう。`もし消してしまった場合、今までデプロイしたリソースはTerraformの管理外となってしまいます。
 
 **プラクティス**
 
-試しに`terraform.tfstate`を消してみます。この操作はプラクティスで学ぶためのもので、実運用では絶対にしないでください。
+試しに`terraform.tfstate`を消してみます。この操作は学習目的のものです。実運用では絶対にしないでください。
 
 - `terraform.tfstate`を削除します。
 - `terraform.tfstate.backup`を別ディレクトリ等に退避します。
@@ -141,9 +141,9 @@ $ aws ec2 describe-vpcs --filters "Name=tag-value,Values=tf-test"
 $ aws ec2 describe-subnets --filters "Name=tag-value,Values=tf-test"
 ```
 
-VPCはCIDRが同じでもデプロイできるため、VPCおよびサブネットがもう1セット作成されました。このように、tfstateファイルがなくなると以前のリソースをTerraformで管理することができなくなります。そのため、tfstateファイルは絶対なくさないようにします。
+VPCはCIDRが同じでもデプロイできるためVPCおよびサブネットがもう1セット作成されました。このように、tfstateファイルがなくなると以前のリソースをTerraformで管理できなくなります。そのため、tfstateファイルは絶対なくさないようにします。
 
-また、複数人でTerraformを使って管理する場合、このtfstateファイルを共有した方がよいです。その場合、tfstateファイルを外部のバックエンドに保存して共有します。バックエンドにはS3が使えるため、S3に保管しつつバージョニングを有効にしてtfstateファイルを保護します。さらに複数人が同時に更新してコンフリクトすることを防ぐため、tfstateファイルの排他制御も行います。これらについては別のステップにてあつかいます。
+また、複数人でTerraformを使って環境を管理する場合、このtfstateファイルを共有した方がよいです。その場合、tfstateファイルを外部のバックエンドに保存して共有します。バックエンドにはS3が使えるため、S3に保管しつつバージョニングを有効にしてtfstateファイルを保護します。さらにtfstateが同時に更新されることを防ぐために排他制御もした方がいいです。これらについては別のステップにてあつかいます。
 
 - `terraform destroy`で新しいリソースを削除します。
 - 退避させた`terraform.tfstate.backup`を`terraform.tfstate`として戻します。
@@ -170,4 +170,4 @@ Terraformで作成したリソースはdestroy以外にも削除する方法が�
 
 # 後片付け
 
-- destoryします。または、main.tfをすべてコメントアウトしてapplyします。
+- destoryします。またはmain.tfをすべてコメントアウトしてapplyします。

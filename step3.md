@@ -21,7 +21,7 @@ countは指定した回数だけ繰り返します。使い方は[count](https:/
 
 - 以下の変数を設定します。
   - vpc-cird: "10.1.0.0/16"
-  - subnet-cidrs: "10.1.10.0/24","10.1.20.0/24"
+  - subnet-cidrs: \["10.1.10.0/24","10.1.20.0/24"\]
 - vpcを作成します。
   - cidrは変数vpc-cirdで指定します。
 - subnetを作成します。
@@ -177,4 +177,4 @@ subnets = {
 
 # 後片付け
 
-- destoryします。または、main.tfをすべてコメントアウトしてapplyします。
+- destoryします。またはmain.tfをすべてコメントアウトしてapplyします。
