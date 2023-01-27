@@ -9,8 +9,3 @@ output "vpc_arn" {
 output "subnet" {
   value = aws_subnet.tf_test
 }
-
-output "caller_user" {
-  value = data.aws_region.current.name
-}
-

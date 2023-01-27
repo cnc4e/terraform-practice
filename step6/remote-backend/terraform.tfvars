@@ -1,0 +1,1 @@
+base_name = "terraform-practice-mori"

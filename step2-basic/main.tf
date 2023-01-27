@@ -1,5 +1,3 @@
-data "aws_region" "current" {}
-
 resource "aws_vpc" "tf_test" {
   cidr_block = "10.1.0.0/16"
 
