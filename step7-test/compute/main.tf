@@ -33,7 +33,7 @@ resource "aws_security_group" "this" {
   }
 
   tags = {
-    "Name" = "${var.pj}-${var.app}-ec2-sg"
+    "Name" = "${var.pj}-${var.app}"
   }
 }
 
@@ -42,6 +42,6 @@ resource "aws_s3_bucket" "this" {
   bucket   = "${var.pj}-${var.app}-bucket"
 
   tags = {
-    "Name" = "${var.pj}-${var.app}-bucket"
+    "Name" = "${var.pj}-${var.app}"
   }
 }

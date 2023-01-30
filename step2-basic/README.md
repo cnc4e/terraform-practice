@@ -30,6 +30,8 @@ Terraformはプロバイダーを使ってリソースのデプロイをしま�
 - [Provider Configuration](https://developer.hashicorp.com/terraform/language/providers/configuration)を参考に以下内容を`versions.tf`に追加してください。
   - `aws`プロバイダーの設定ブロックで東京リージョン(ap-northeast-1)を指定します（任意の別リージョンでも良いです）
 
+> ヒント: ステップ1の設定をまねてください。
+
 ### Terraformとプロバイダーのバージョン要件を設定する
 
 Terraform自体とクラウドプロバイダーのバージョンに要件を設定できます。これは[terraformブロック](https://developer.hashicorp.com/terraform/language/settings)で設定します。例えばTerraformとAWSプロバイダーのバージョンを2023/1時点の最新であるTerraform:1.3.7、AWSプロバイダー:4.49.0以上といった指定ができます。
@@ -42,6 +44,8 @@ terraformブロックはどのファイルに書いてもいいですが`version
 
 - [Terraform Settings](https://developer.hashicorp.com/terraform/language/settings)を参考に以下内容の`versions.tf`を作成してください。
   - AWSプロバイダーのバージョンを`4.49.0`以上を要件に指定します。
+
+> ヒント: ステップ1の設定をまねてください。
 
 ## 2-2. コードを書いてリソースをデプロイする
 
@@ -80,7 +84,7 @@ $ aws ec2 describe-subnets --filters "Name=tag-value,Values=tf-test"
 
 ## 2-4. Valiablesで変数にする
 
-値を変数にして外だしすることもできます。後のStepであつかうモジュール化をする場合によく使います。変数化したい値ごとに[valiablesブロック](https://developer.hashicorp.com/terraform/language/values/variables)で記述します。valiablesブロックもどこに書いてもいいですが、`valiables.tf`ファイルにまとめて書くのがよいでしょう。valiablesブロックで宣言した変数はリソース内で`var.名前`と指定すれば参照できます。valiabelsブロックには[type](https://developer.hashicorp.com/terraform/language/values/variables#type-constraints)が指定でき値の制限ができます。基本的にtypeは指定するようにしましょう。また、[description](https://developer.hashicorp.com/terraform/language/values/variables#input-variable-documentation)で値の説明を書けます。基本的にdescriptionも記述するようにしましょう。
+値を変数にして外だしすることもできます。後のStepであつかうモジュール化をする場合によく使います。変数化したい値ごとに[valiablesブロック](https://developer.hashicorp.com/terraform/language/values/variables)で記述します。valiablesブロックもどこに書いてもいいですが、`valiables.tf`ファイルにまとめて書くのがよいでしょう。valiablesブロックで宣言した変数はリソース内で`var.名前`と指定すれば参照できます。文字列の中に変数を埋め込みたい場合は`${var.名前}`と書くと文字列に変数を入れられます。valiabelsブロックには[type](https://developer.hashicorp.com/terraform/language/values/variables#type-constraints)が指定でき値の制限ができます。基本的にtypeは指定するようにしましょう。また、[description](https://developer.hashicorp.com/terraform/language/values/variables#input-variable-documentation)で値の説明を書けます。基本的にdescriptionも記述するようにしましょう。
 
 variablesブロックで宣言した変数に値を設定するには[いくつかの方法](https://developer.hashicorp.com/terraform/language/values/variables#assigning-values-to-root-module-variables)があります。`terraform.tfvars`ファイルに`変数名=値`の形式で指定することが多いと思います。
 
