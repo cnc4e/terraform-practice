@@ -52,6 +52,6 @@ Terraform Practiceはいくつかのステップに分けて構成されてい�
 ### [ステップ5 モジュール化](./step5-module/README.md)
   - [5-1. リソース群をモジュールにする](./step5-module/README.md#5-1-リソース群をモジュールにする)
   - [5-2. モジュールを使いまわして複数デプロイする](./step5-module/README.md#5-2-モジュールを使いまわして複数デプロイする)
-  - [5-3. モジュール間で値を渡す](./step5-module/README.md#5-3-モジュール間で値を渡す)
+  - [5-3. モジュールの値を参照する](./step5-module/README.md#5-3-モジュールの値を参照する)
 ### [ステップ6 Tips](./step6-tips/step6.md)
 ### ステップ7 作成中
