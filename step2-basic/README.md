@@ -23,7 +23,7 @@ Terraformを使う上で最低限知っていた方がいいと思うことを�
 
 ### プロバイダーの設定をする
 
-Terraformはプロバイダーを使ってリソースのデプロイをします。対応したプロバイダーは[こちら](https://registry.terraform.io/browse/providers)にあります。AWSプロバイダーの場合はリソースをデプロイするリージヨンを設定できます。設定は[providerブロック](https://developer.hashicorp.com/terraform/language/providers/configuration)に書きます。providerブロックもどこに書いても良いですが、`versions.tf`ファイルに書くのがよいでしょう。
+Terraformはプロバイダーを使ってリソースのデプロイをします。対応したプロバイダーは[こちら](https://registry.terraform.io/browse/providers)にあります。AWSプロバイダーの場合はリソースをデプロイするリージョンを設定できます。設定は[providerブロック](https://developer.hashicorp.com/terraform/language/providers/configuration)に書きます。providerブロックもどこに書いても良いですが、`versions.tf`ファイルに書くのがよいでしょう。
 
 **プラクティス**
 
@@ -90,7 +90,7 @@ variablesブロックで宣言した変数に値を設定するには[いくつ�
 
 **プラクティス**
 
-- `variavles.tf`ファイルを作成し以下内容のvariablesブロックを記述します。
+- `variables.tf`ファイルを作成し以下内容のvariablesブロックを記述します。
   - 変数名: subnet_cidr
   - タイプ: 文字列
   - 説明: サブネットのCIDRです
@@ -125,7 +125,7 @@ Terraformで作成したリソースの情報(ARNやIDなど)を確認するに�
 
 ## 2-7. tfstateについて
 
-Terraformを実行したディレクトリを見ると`terraform.tfstate`と`terraform.tfstate.backup`というファイルがあります。これらのファイルはTerraformがデプロイしたリソースを記録するものです。中身を確認するとJSON形式でデプロイしたリソースの情報が書かれています。このファイルはとても大事です。`絶対に消さないようにしましょう。`もし消してしまった場合、今までデプロイしたリソースはTerraformの管理外となってしまいます。
+Terraformを実行したディレクトリを見ると`terraform.tfstate`と`terraform.tfstate.backup`というファイルがあります。これらのファイルはTerraformがデプロイしたリソースを記録するものです。中身を確認するとJSON形式でデプロイしたリソースの情報が書かれています。このファイルはとても大事です。**絶対に消さないようにしましょう。**もし消してしまった場合、今までデプロイしたリソースはTerraformの管理外となってしまいます。
 
 **プラクティス**
 
