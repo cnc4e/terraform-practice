@@ -4,7 +4,7 @@
     - [Terraformとプロバイダーのバージョン要件を設定する](#terraformとプロバイダーのバージョン要件を設定する)
   - [2-2. コードを書いてリソースをデプロイする](#2-2-コードを書いてリソースをデプロイする)
   - [2-3. リソース間で値を渡す](#2-3-リソース間で値を渡す)
-  - [2-4. Valiablesで変数にする](#2-4-valiablesで変数にする)
+  - [2-4. Variablesで変数にする](#2-4-variablesで変数にする)
   - [2-5. default\_tags](#2-5-default_tags)
   - [2-6. デプロイしたリソースの情報を確認にする](#2-6-デプロイしたリソースの情報を確認にする)
   - [2-7. tfstateについて](#2-7-tfstateについて)
@@ -82,9 +82,9 @@ $ aws ec2 describe-vpcs --filters "Name=tag-value,Values=tf-test"
 $ aws ec2 describe-subnets --filters "Name=tag-value,Values=tf-test"
 ```
 
-## 2-4. Valiablesで変数にする
+## 2-4. Variablesで変数にする
 
-値を変数にして外だしすることもできます。後のStepであつかうモジュール化をする場合によく使います。変数化したい値ごとに[valiablesブロック](https://developer.hashicorp.com/terraform/language/values/variables)で記述します。valiablesブロックもどこに書いてもいいですが、`valiables.tf`ファイルにまとめて書くのがよいでしょう。valiablesブロックで宣言した変数はリソース内で`var.名前`と指定すれば参照できます。文字列の中に変数を埋め込みたい場合は`${var.名前}`と書くと文字列に変数を入れられます。valiabelsブロックには[type](https://developer.hashicorp.com/terraform/language/values/variables#type-constraints)が指定でき値の制限ができます。基本的にtypeは指定するようにしましょう。また、[description](https://developer.hashicorp.com/terraform/language/values/variables#input-variable-documentation)で値の説明を書けます。基本的にdescriptionも記述するようにしましょう。
+値を変数にして外だしすることもできます。後のStepであつかうモジュール化をする場合によく使います。変数化したい値ごとに[variablesブロック](https://developer.hashicorp.com/terraform/language/values/variables)で記述します。variablesブロックもどこに書いてもいいですが、`variables.tf`ファイルにまとめて書くのがよいでしょう。variablesブロックで宣言した変数はリソース内で`var.名前`と指定すれば参照できます。文字列の中に変数を埋め込みたい場合は`${var.名前}`と書くと文字列に変数を入れられます。variabelsブロックには[type](https://developer.hashicorp.com/terraform/language/values/variables#type-constraints)が指定でき値の制限ができます。基本的にtypeは指定するようにしましょう。また、[description](https://developer.hashicorp.com/terraform/language/values/variables#input-variable-documentation)で値の説明を書けます。基本的にdescriptionも記述するようにしましょう。
 
 variablesブロックで宣言した変数に値を設定するには[いくつかの方法](https://developer.hashicorp.com/terraform/language/values/variables#assigning-values-to-root-module-variables)があります。`terraform.tfvars`ファイルに`変数名=値`の形式で指定することが多いと思います。
 
@@ -154,7 +154,7 @@ VPCはCIDRが同じでもデプロイできるためVPCおよびサブネット�
 
 ## 2-8. .terraformについて
 
-Terraformを実行したディレクトリを見ると隠しディレクトリとして`.terraform`が作成されています。これはterraform initした時に作成されたもので、この中にはプロバイダーを管理するための情報やtfstateのバックエンド情報が格納されています。このディレクトリはそれなりに容量があります。TerraformをGitで共有する場合、この.terraformディレクトリをGitに含めないように`.gitignore`を設定した方がいいです。GitHubやGitLabには.gitignoreのテンプレートでterraofromがあり、そのテンプレートを使えば.terraformが除外されるように設定さますので活用しましょう。
+Terraformを実行したディレクトリを見ると隠しディレクトリとして`.terraform`が作成されています。これはterraform initした時に作成されたもので、この中にはプロバイダーを管理するための情報やtfstateのバックエンド情報が格納されています。このディレクトリはそれなりに容量があります。TerraformをGitで共有する場合、この.terraformディレクトリをGitに含めないように`.gitignore`を設定した方がいいです。GitHubやGitLabには.gitignoreのテンプレートでterraformがあり、そのテンプレートを使えば.terraformが除外されるように設定さますので活用しましょう。
 
 **プラクティス**
 
