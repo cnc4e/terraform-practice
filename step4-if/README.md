@@ -47,7 +47,7 @@ $ aws ec2 describe-vpc-attribute --attribute enableDnsHostnames --vpc-id <vpc id
 
 ## 4-2. 三項演算子とループによるリソースの分岐
 
-ループ(count/for_each)と組み合わせるばリソースレベルでの分岐もできます。
+ループ(count/for_each)と組み合わせればリソースレベルでの分岐もできます。
 
 ### ただ分岐させたい場合
 
