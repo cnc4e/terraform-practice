@@ -108,7 +108,13 @@ variablesブロックで宣言した変数に値を設定するには[いくつ�
 
 - `varsions.tf`内のAWSプロバイダー設定にて、Env:terraform-practice、Owner:自分の名前 のデフォルトタグを設定します
 - `main.tf`のvpcおよびsubentからEnvとOwnerのタグを消します
-- planします。`No changes.`となり変更がないことを確認します
+- planします。このとき、tagsの部分のみに差分が出ることを確認します
+- 確認後applyします
+- マネージメントコンソールまたは以下コマンドで"2-3. リソース間で値を渡す"で表示されたリソースがそのまま表示されること確認します。
+
+``` sh
+$ aws ec2 describe-subnets --filters "Name=tag-value,Values=tf-test"
+```
 
 ## 2-6. デプロイしたリソースの情報を確認にする
 
