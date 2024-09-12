@@ -174,4 +174,4 @@ Terraformで作成したリソースはdestroy以外にも削除する方法が�
 
 # 後片付け
 
-- destoryします。またはmain.tfをすべてコメントアウトしてapplyします。
+- destroyします。またはmain.tfをすべてコメントアウトしてapplyします。
