@@ -129,7 +129,7 @@ sg-ingress-rulus = {
   - 上記のtypeは以下の通りです。
 ```
 type = map(object({
-    protocol = "string"
+    protocol = string
 }))
 ```
 - SecurityGroupを改良します。
