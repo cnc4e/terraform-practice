@@ -105,5 +105,5 @@
 
 # 後片付け
 
-- destoryします。またはmain.tfをすべてコメントアウトしてapplyします。
+- destroyします。またはmain.tfをすべてコメントアウトしてapplyします。
 
