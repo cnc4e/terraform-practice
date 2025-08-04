@@ -11,7 +11,7 @@
 
 Terraformは基本的に1つのリソースブロックにつき1つのリソースがデプロイされます。しかし、同じ設定のリソースを複数作りたいこともあります。そのような時、ループを使えば記述量を減らせます。Terraformにはいくつかループの書き方があります。
 
-`step3`ディレクトリを作成、移動して実施ください。以降のプラクティスはすべて`step3`ディレクトリ内で行う想定です。`versions.tf`を作成しておいてください。必要に応じて`main.tf`、`varibales.tf`、`output.tf`、`terraform.tfvars`も作成してください。すべてのリソースにはStep=step3のタグを設定します。ファイルはステップ内で同じものを続けて使ったください。
+`step3`ディレクトリを作成、移動して実施ください。以降のプラクティスはすべて`step3`ディレクトリ内で行う想定です。`versions.tf`を作成しておいてください。また、必要に応じて`main.tf`、`varibales.tf`、`output.tf`、`terraform.tfvars`も作成してください。すべてのリソースにはStep=step3のタグを設定します。ファイルはステップ内で同じものを続けて使ってください。
 
 ## 3-1. countによるリソースの繰り返し
 
@@ -79,7 +79,7 @@ for_eachの場合、planの結果でもわかる通り各リソースは`リソ�
 aws ec2 describe-security-group-rules --filter Name="group-id",Values="<sg id>"
 ```
 
-さて、上記のSGにさらに3つのingressルールを追加したいとします。3つならingressブロックを手で追加して書けなくもないですが面倒です。そこで[dynamic](https://developer.hashicorp.com/terraform/language/expressions/dynamic-blocks)を使います。dynamicを使うとリソール内のブロックに対して繰り返しが使えます。書き方はfor_eachに似ています。
+さて、上記のSGにさらに3つのingressルールを追加したいとします。3つならingressブロックを手で追加して書けなくもないですが面倒です。そこで[dynamic](https://developer.hashicorp.com/terraform/language/expressions/dynamic-blocks)を使います。dynamicを使うとリソース内のブロックに対して繰り返しが使えます。書き方はfor_eachに似ています。
 
 **プラクティス2**
 
