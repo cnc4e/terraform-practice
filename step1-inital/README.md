@@ -95,7 +95,7 @@ $ terraform plan
 ...
 ```
 
-最後に`terraform apply`をするとリソースがデプロイされます。applyするとplanの結果も表示され、確認メッセージで`yes`を入力するとデプロイされます。問題を見つけた場合は`no`など入力すればデプロイしません。最終的に`Apply complete!`のメッセージが出ればデプロイ完了です。
+最後に`terraform apply`をするとリソースがデプロイされます。applyするとplanの結果も表示され、確認メッセージで`yes`を入力するとデプロイされます。問題を見つけた場合は`no`など入力すればデプロイされません。最終的に`Apply complete!`のメッセージが出ればデプロイ完了です。
 
 ``` sh
 $ terraform apply

@@ -79,7 +79,7 @@ for_eachの場合、planの結果でもわかる通り各リソースは`リソ�
 aws ec2 describe-security-group-rules --filter Name="group-id",Values="<sg id>"
 ```
 
-さて、上記のSGにさらに3つのingressルールを追加したいとします。3つならingressブロックを手で追加して書けなくもないですが面倒です。そこで[dynamic](https://developer.hashicorp.com/terraform/language/expressions/dynamic-blocks)を使います。dynamicを使うとリソール内のブロックに対して繰り返しが使えます。書き方はfor_eachに似ています。
+さて、上記のSGにさらに3つのingressルールを追加したいとします。3つならingressブロックを手で追加して書けなくもないですが面倒です。そこで[dynamic](https://developer.hashicorp.com/terraform/language/expressions/dynamic-blocks)を使います。dynamicを使うとリソース内のブロックに対して繰り返しが使えます。書き方はfor_eachに似ています。
 
 **プラクティス2**
 

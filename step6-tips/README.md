@@ -120,7 +120,7 @@ terraform plan -traget=module.<モジュール名>
 基本的にTerraformは依存関係を自動で推測してデプロイしてくれます。例えば、ステップ2で作成したVPCとサブネットだと、サブネットからVPC IDを参照しているため、VPC→サブネットの順番でデプロイしてくれます。しかし、依存関係を明示的に指定したいこともあります。[depends_on](https://developer.hashicorp.com/terraform/language/meta-arguments/depends_on)を使えば明示的な依存関係を設定できます。たとえば以下のように書きます。
 
 ```
-resource "aws_vpc" "est" {
+resource "aws_vpc" "test" {
   cidr_block = "10.1.0.0/16"
 }
 
@@ -138,7 +138,7 @@ resource "aws_subnet" "test" {
 初期デプロイ以降は変更を無視したい場合もあります。例えば、AutoScallingGroupの希望数は自動調整で値が変更されていたります。Terraformコードと実環境の差異を無視したいときは[lifecycle.ignore_changes](https://developer.hashicorp.com/terraform/language/meta-arguments/lifecycle#ignore_changes)を使います。例えば以下のように書くと`cidr_block`の値を変更しても無視されます。
 
 ```
-resource "aws_vpc" "est" {
+resource "aws_vpc" "test" {
   cidr_block = "10.1.0.0/16"
 
   lifecycle {

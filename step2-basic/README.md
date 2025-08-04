@@ -161,7 +161,7 @@ VPCはCIDRが同じでもデプロイできるためVPCおよびサブネット�
 
 ## 2-8. .terraformについて
 
-Terraformを実行したディレクトリを見ると隠しディレクトリとして`.terraform`が作成されています。これはterraform initした時に作成され、プロバイダーを管理するための情報やtfstateのバックエンド情報を格納するものです。このディレクトリはそれなりに容量があります。TerraformをGitで共有する場合、この.terraformディレクトリをGitに含めないように`.gitignore`を設定した方がいいです。GitHubやGitLabには.gitignoreのテンプレートでterraofromがあり、そのテンプレートを使えば.terraformが除外されるように設定さますので活用しましょう。
+Terraformを実行したディレクトリを見ると隠しディレクトリとして`.terraform`が作成されています。これはterraform initした時に作成され、プロバイダーを管理するための情報やtfstateのバックエンド情報を格納するものです。このディレクトリはそれなりに容量があります。TerraformをGitで共有する場合、この.terraformディレクトリをGitに含めないように`.gitignore`を設定した方がいいです。GitHubやGitLabには.gitignoreのテンプレートでTerraofromがあり、そのテンプレートを使えば.terraformが除外されるように設定さますので活用しましょう。
 
 **プラクティス**
 
