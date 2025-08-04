@@ -1,13 +1,13 @@
 terraform {
   required_providers {
     aws = {
-      version = ">= 4.49.0"
+      version = ">= 6.6.0"
     }
   }
 }
 
 provider "aws" {
-  region = "ap-south-1"
+  region = "ap-northeast-1"
 }
 
 resource "aws_vpc" "tf_test" {

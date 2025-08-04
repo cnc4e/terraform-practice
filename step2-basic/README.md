@@ -23,7 +23,7 @@ Terraformを使う上で最低限知っていた方がいいと思うことを�
 
 ### プロバイダーの設定をする
 
-Terraformはプロバイダーを使ってリソースのデプロイをします。対応したプロバイダーは[こちら](https://registry.terraform.io/browse/providers)にあります。AWSプロバイダーの場合はリソースをデプロイするリージョンを設定できます。設定は[providerブロック](https://developer.hashicorp.com/terraform/language/providers/configuration)に書きます。providerブロックもどこに書いても良いですが、`versions.tf`ファイルに書くのがよいでしょう。
+Terraformはプロバイダーを使ってリソースのデプロイをします。対応したプロバイダーの一覧は[こちら](https://registry.terraform.io/browse/providers)を確認してください。AWSプロバイダーの場合はリソースをデプロイするリージョンを設定可能です。設定は[providerブロック](https://developer.hashicorp.com/terraform/language/providers/configuration)に書きます。providerブロックもどこに書いても良いですが、`versions.tf`ファイルに書くのがよいでしょう。
 
 **プラクティス**
 
@@ -34,22 +34,22 @@ Terraformはプロバイダーを使ってリソースのデプロイをしま�
 
 ### Terraformとプロバイダーのバージョン要件を設定する
 
-Terraform自体とクラウドプロバイダーのバージョンに要件を設定できます。これは[terraformブロック](https://developer.hashicorp.com/terraform/language/settings)で設定します。例えばTerraformとAWSプロバイダーのバージョンを2023/1時点の最新であるTerraform:1.3.7、AWSプロバイダー:4.49.0以上といった指定ができます。
+Terraform自体とクラウドプロバイダーのバージョンに要件を設定可能です。これは[terraformブロック](https://developer.hashicorp.com/terraform/language/settings)で設定してください。例えばTerraformとAWSプロバイダーのバージョンを2025/8時点の最新であるTerraform:1.12.2、AWSプロバイダー:6.6.0以上といった指定ができます。
 
-Terraformおよびクラウドプロバイダーは活発に開発が行われており、バージョン違いで意図した動作をしないことが懸念されます。そのため、terraformブロックで使用するバージョン要件を設定した方がいいです。
+Terraformおよびクラウドプロバイダーは活発に開発・更新が行われており、バージョン違いで意図した動作をしないことが懸念されます。そのため、terraformブロックで使用するバージョン要件を設定した方がいいです。
 
 terraformブロックはどのファイルに書いてもいいですが`versions.tf`ファイルに書くのがよいでしょう。
 
 **プラクティス**
 
 - [Terraform Settings](https://developer.hashicorp.com/terraform/language/settings)を参考に以下内容の`versions.tf`を作成してください。
-  - AWSプロバイダーのバージョンを`4.49.0`以上を要件に指定します。
+  - AWSプロバイダーのバージョンを`6.6.0`以上を要件に指定します。
 
 > ヒント: ステップ1の設定をまねてください。
 
 ## 2-2. コードを書いてリソースをデプロイする
 
-Terraformはクラウドプロバイダーを使用してリソースをデプロイします。たとえばAWSの場合、[AWSプロバイダー](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)にTerraformでデプロイできるリソースが載っています。デプロイしたいリソースを[resourceブロック](https://developer.hashicorp.com/terraform/language/resources/syntax)に記述してデプロイします。各リソースには設定可能なパラメーターが数多く用意されています。リソースごとに必須のパラメーターとオプションのパラメーターがあります。指定しなかったオプションパラメーターはデフォルト値でデプロイされます。すべてのパラメーターを記述してもいいですが大変です。明示的にデフォルトから変えたいパラメーターのみ書くのが良いと思います。本プラクティスでは明示的に指定しているパラメーター以外は指定なし（デフォルト値）で良いです。
+Terraformはクラウドプロバイダーを使用してリソースをデプロイします。例えばAWSの場合、[AWSプロバイダー](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)にTerraformでデプロイできるリソースが載っています。デプロイしたいリソースを[resourceブロック](https://developer.hashicorp.com/terraform/language/resources/syntax)に記述してデプロイしてください。各リソースには設定可能なパラメーターが数多く用意されています。リソースごとに必須のパラメーターとオプションのパラメーターがあります。指定しなかったオプションパラメーターはデフォルト値でデプロイされます。すべてのパラメーターを記述してもいいですが大変です。明示的にデフォルトから変えたいパラメーターのみ書くのがいいと思います。本プラクティスでは明示的に指定しているパラメーター以外は指定なし（デフォルト値）で大丈夫です。
 
 **プラクティス**
 
@@ -66,7 +66,7 @@ $ aws ec2 describe-vpcs --filters "Name=tag-value,Values=tf-test"
 
 ## 2-3. リソース間で値を渡す
 
-つづいて作成したVPCにサブネットを追加します。サブネットは[Resource: aws_subnet](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet)で宣言します。サブネットを作成する際、[vpc_id](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet#vpc_id)の指定が必須です。VPCのIDを自分で確認して入力するのは手間です。Terraformでは作成したリソースの情報（属性）を別リソースから参照できます。VPCの場合、[Resource: aws_vpc の Attributes Reference](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc#attributes-reference)に書かれている属性を別リソースから参照できます。別リソースからは`リソースタイプ.リソース名.属性名`で参照できます。
+続いて作成したVPCにサブネットを追加します。サブネットは[Resource: aws_subnet](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet)で宣言してください。サブネットを作成する際、[vpc_id](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet#vpc_id)の指定が必須です。VPCのIDを自分で確認して入力するのは手間がかかります。そうしなくとも、Terraformでは作成したリソースの情報（属性）を別リソースから参照できます。VPCの場合、[Resource: aws_vpc の Attributes Reference](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc#attributes-reference)に書かれている属性を別リソースから参照できます。別リソースからは`リソースタイプ.リソース名.属性名`で参照できます。
 
 **プラクティス**
 
@@ -84,7 +84,7 @@ $ aws ec2 describe-subnets --filters "Name=tag-value,Values=tf-test"
 
 ## 2-4. Valiablesで変数にする
 
-値を変数にして外だしすることもできます。後のStepであつかうモジュール化をする場合によく使います。変数化したい値ごとに[valiablesブロック](https://developer.hashicorp.com/terraform/language/values/variables)で記述します。valiablesブロックもどこに書いてもいいですが、`valiables.tf`ファイルにまとめて書くのがよいでしょう。valiablesブロックで宣言した変数はリソース内で`var.名前`と指定すれば参照できます。文字列の中に変数を埋め込みたい場合は`${var.名前}`と書くと文字列に変数を入れられます。valiabelsブロックには[type](https://developer.hashicorp.com/terraform/language/values/variables#type-constraints)が指定でき値の制限ができます。基本的にtypeは指定するようにしましょう。また、[description](https://developer.hashicorp.com/terraform/language/values/variables#input-variable-documentation)で値の説明を書けます。基本的にdescriptionも記述するようにしましょう。
+値を変数にして外だしすることも可能です。後のStepであつかうモジュール化をする場合によく使います。方法としては、変数化したい値ごとに[valiablesブロック](https://developer.hashicorp.com/terraform/language/values/variables)で記述します。valiablesブロックもどこに書いてもいいですが、`valiables.tf`ファイルにまとめて書くのがよいでしょう。valiablesブロックで宣言した変数はリソース内で`var.名前`と指定すれば参照できます。文字列の中に変数を埋め込みたい場合は`${var.名前}`と書くと文字列に変数を入れられます。valiabelsブロックには[type](https://developer.hashicorp.com/terraform/language/values/variables#type-constraints)が指定でき型の制限ができます。基本的にtypeは指定するようにしましょう。また、[description](https://developer.hashicorp.com/terraform/language/values/variables#input-variable-documentation)で値の説明を書けます。基本的にdescriptionも記述するようにしましょう。
 
 variablesブロックで宣言した変数に値を設定するには[いくつかの方法](https://developer.hashicorp.com/terraform/language/values/variables#assigning-values-to-root-module-variables)があります。`terraform.tfvars`ファイルに`変数名=値`の形式で指定することが多いと思います。
 
@@ -102,7 +102,8 @@ variablesブロックで宣言した変数に値を設定するには[いくつ�
 
 ## 2-5. default_tags
 
-作成したVPCやサブネットにはEnvやOwnerなど、同じタグが設定されています。こういったすべてのリソースに設定したいタグは[default_tags](https://www.hashicorp.com/blog/default-tags-in-the-terraform-aws-provider)で設定すると楽です。default_tagsはproviderブロックで設定します。
+作成したVPCやサブネットにはEnvやOwnerなど、同じタグが設定されています。しかし、これは各リソースに個別にタグを設定して実現しているため、リソースの数が多くなると手間となります。すべてのリソースに設定したいタグは[default_tags](https://www.hashicorp.com/blog/default-tags-in-the-terraform-aws-provider)で設定すると楽です。default_tagsはproviderブロックで設定します。
+
 
 **プラクティス**
 
@@ -131,7 +132,7 @@ Terraformで作成したリソースの情報(ARNやIDなど)を確認するに�
 
 ## 2-7. tfstateについて
 
-Terraformを実行したディレクトリを見ると`terraform.tfstate`と`terraform.tfstate.backup`というファイルがあります。これらのファイルはTerraformがデプロイしたリソースを記録するものです。中身を確認するとJSON形式でデプロイしたリソースの情報が書かれています。このファイルはとても大事です。**絶対に消さないようにしましょう。**もし消してしまった場合、今までデプロイしたリソースはTerraformの管理外となってしまいます。
+Terraformを実行したディレクトリを見ると`terraform.tfstate`と`terraform.tfstate.backup`というファイルがあります。これらのファイルはTerraformがデプロイしたリソースを記録するものです。中身を確認するとJSON形式でデプロイしたリソースの情報が書かれています。このファイルはとても大事ですので、**絶対に消さないようにしましょう。**もし消してしまった場合、今までデプロイしたリソースはTerraformの管理外となってしまいます。
 
 **プラクティス**
 
@@ -160,7 +161,7 @@ VPCはCIDRが同じでもデプロイできるためVPCおよびサブネット�
 
 ## 2-8. .terraformについて
 
-Terraformを実行したディレクトリを見ると隠しディレクトリとして`.terraform`が作成されています。これはterraform initした時に作成されたもので、この中にはプロバイダーを管理するための情報やtfstateのバックエンド情報が格納されています。このディレクトリはそれなりに容量があります。TerraformをGitで共有する場合、この.terraformディレクトリをGitに含めないように`.gitignore`を設定した方がいいです。GitHubやGitLabには.gitignoreのテンプレートでterraofromがあり、そのテンプレートを使えば.terraformが除外されるように設定さますので活用しましょう。
+Terraformを実行したディレクトリを見ると隠しディレクトリとして`.terraform`が作成されています。これはterraform initした時に作成され、プロバイダーを管理するための情報やtfstateのバックエンド情報を格納するものです。このディレクトリはそれなりに容量があります。TerraformをGitで共有する場合、この.terraformディレクトリをGitに含めないように`.gitignore`を設定した方がいいです。GitHubやGitLabには.gitignoreのテンプレートでterraofromがあり、そのテンプレートを使えば.terraformが除外されるように設定さますので活用しましょう。
 
 **プラクティス**
 
@@ -168,7 +169,7 @@ Terraformを実行したディレクトリを見ると隠しディレクトリ�
 
 ## 2-9. コメントアウトでリソースを削除する
 
-Terraformで作成したリソースはdestroy以外にも削除する方法があります。リソースをコメントアウトして再度applyするとコメントアウトしたリソースを消すことができます。これだとコメントアウトしたリソースだけ削除できます。destroyだと誤ってすべてのリソースを削除してしまうかもしれないため、複数のリソースが含まれる場合はこの方法の方がいいかもしれません。コメントアウトの仕方はこちらの[Comments](https://developer.hashicorp.com/terraform/language/syntax/configuration#comments)にあります。
+Terraformで作成したリソースはdestroy以外にも削除する方法があります。リソースをコメントアウトして再度applyするとコメントアウトしたリソースを消すことができます。この方法でコメントアウトしたリソースだけ削除できます。destroyでは誤ってすべてのリソースを削除する可能性があるため、複数のリソースが含まれる場合はこの方法の方がいいかもしれません。コメントアウトの仕方はこちらの[Comments](https://developer.hashicorp.com/terraform/language/syntax/configuration#comments)にあります。
 
 **プラクティス**
 

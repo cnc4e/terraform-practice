@@ -2,7 +2,7 @@
   - [実行準備](#実行準備)
     - [Terraform CLIのインストール](#terraform-cliのインストール)
     - [AWSプロファイルの準備](#awsプロファイルの準備)
-  - [基礎的なterraformの使い方](#基礎的なterraformの使い方)
+  - [基礎的なTerraformの使い方](#基礎的なterraformの使い方)
     - [コードの準備](#コードの準備)
     - [Terraformでリソースをデプロイ](#terraformでリソースをデプロイ)
     - [Terraformでデプロイしたリソースを削除](#terraformでデプロイしたリソースを削除)
@@ -19,10 +19,10 @@ Terraformを使えるように準備します。前提として作業端末は�
 
 Terraformコマンドはシングルバイナリで実行できます。[こちらの公式ページ](https://developer.hashicorp.com/terraform/downloads)にアクセスし、端末にあった方法でインストールしてください。
 
-たとえば、v1.3.7(2023/1時点の最新)をUbuntuにインストールする場合は以下のようにします。
+たとえば、v1.12.2(2025/8時点の最新)をUbuntuにインストールする場合は以下のようにします。
 
 ``` sh
-$ wget https://releases.hashicorp.com/terraform/1.3.7/terraform_1.3.7_linux_amd64.zip
+$ wget https://releases.hashicorp.com/terraform/1.12.2/terraform_1.12.2_linux_amd64.zip
 $ unzip terraform_1.3.7_linux_amd64.zip
 $ chmod +x terraform
 $ mv terraform /usr/local/bin/
@@ -43,11 +43,11 @@ AWS CLIのインストールおよび設定は公式のドキュメントを参�
 - [Installing or updating the latest version of the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 - [Configuration basics](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html)
 
-## 基礎的なterraformの使い方
+## 基礎的なTerraformの使い方
 
 ### コードの準備
 
-以下コマンドで作業用に`step1`ディレクトリを作成し、そのディレクトリ下に`test.tf`を作成します。このコードは東京リージョンに10.1.0.0/16のCIDRブロックを持つtf-testという名前のVPCを作成します。（リージョンは変えても構いません）
+以下コマンドで作業用に`step1`ディレクトリを作成し、そのディレクトリ下に`test.tf`を作成します。このコードは東京リージョンに10.1.0.0/16のCIDRブロックを持つtf-testという名前のVPCを作成するものです。（リージョンは変えても構いません）
 
 ``` sh
 $ mkdir step1
@@ -56,7 +56,7 @@ $ cat <<EOF > test.tf
 terraform {
   required_providers {
     aws = {
-      version = ">= 4.49.0"
+      version = ">= 6.6.0"
     }
   }
 }
@@ -79,7 +79,7 @@ EOF
 
 Terraformを使ってリソースをデプロイするには`init`、`plan`、`apply`を行います。
 
-まずは`terraform init`コマンドでTerraformを実行するディレクトリの初期化を行います。`Terraform has been successfully initialized!`が出れば成功です。initは実行ディレクトリで1回行えばあとは実行しなくてもよいです。（プロバイダーやモジュールを変更した場合はinitし直しが必要です。）
+まずは`terraform init`コマンドでTerraformを実行するディレクトリの初期化を行います。`Terraform has been successfully initialized!`が出れば成功です。initは実行ディレクトリで1回行えば後は実行する必要はありません。（プロバイダーやモジュールを変更した場合はinitし直しが必要です。）
 
 ``` sh
 $ terraform init
@@ -95,7 +95,7 @@ $ terraform plan
 ...
 ```
 
-最後に`terraform apply`をするとリソースがデプロイされます。applyするとplanの結果も表示されます。確認メッセージで`yes`を入力するとデプロイされます。問題を見つけた場合は`no`など入力すればいいです。最終的に`Apply complete!`のメッセージが出ればデプロイ完了です。
+最後に`terraform apply`をするとリソースがデプロイされます。applyするとplanの結果も表示され、確認メッセージで`yes`を入力するとデプロイされます。問題を見つけた場合は`no`など入力すればデプロイしません。最終的に`Apply complete!`のメッセージが出ればデプロイ完了です。
 
 ``` sh
 $ terraform apply
@@ -117,7 +117,8 @@ $ aws ec2 describe-vpcs --filters "Name=tag-value,Values=tf-test"
 
 ### Terraformでデプロイしたリソースを削除
 
-`terraform destroy`でデプロイしたリソースを削除できます。destroyを実行するとapplyと同様に最終確認メッセージの入力が求められます。`yes`を入力するとリソースを削除します。destroyは危険なコマンドなため注意して扱いましょう。`Destroy complete!`のメッセージが出れば削除完了です。
+`terraform destroy`でデプロイしたリソースを削除可能です。destroyを実行するとapplyと同様に最終確認メッセージの入力が求められ、`yes`を入力するとリソースを削除します。  
+destroyは**ディレクトリ内の全てのTerraformでデプロイしたリソースを削除します**。危険なコマンドなため注意して扱いましょう。`Destroy complete!`のメッセージが出れば削除完了です。
 
 ``` sh
 $ pwd # step1ディレクトリにいることを確認
