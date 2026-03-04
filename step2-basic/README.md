@@ -19,6 +19,8 @@ Terraformを使う上で最低限知っていた方がいいと思うことを�
 
 `step2`ディレクトリを作成、移動して実施ください。以降のプラクティスはすべて`step2`ディレクトリ内で行う想定です。ファイルはステップ内で同じものを続けて使ったください。
 
+Terraformは同一ディレクトリ内のすべての`.tf`ファイルを結合して1つの設定として扱うため、役割ごとにファイルを分けて書くのが慣習です。このステップ全体を通して `versions.tf`（プロバイダー・バージョン設定）、`main.tf`（リソース定義）、`variables.tf`（変数宣言）、`terraform.tfvars`（変数の値）、`output.tf`（出力定義）の5ファイル構成を作っていきます。
+
 ## 2-1. Terraformの基本的な設定
 
 ### プロバイダーの設定をする
@@ -75,8 +77,10 @@ $ aws ec2 describe-vpcs --filters "Name=tag-value,Values=tf-test"
   - vpc_id:aws_vpc.tf_testのIDを参照
   - CIDRブロック:10.1.10.0/24
   - Name:tf-test、Env:terraform-practice、Owner:自分の名前 のタグを設定
-- planしてapplyします。
+- planします。planの結果で`vpc_id`に具体的なVPC IDの値（`vpc-xxxxxxxxxxxxxxxxx`）が表示されていることを確認してからapplyします。
 - マネージメントコンソールまたは以下コマンドでリソースが作成されたことを確認します。
+
+> 補足: `tf-test`はAWSに設定するタグの値（Name）で、`tf_test`はTerraformコード上のリソース名です。`vpc_id`の参照では`aws_vpc.tf_test.id`とアンダースコアを使います。
 
 ``` sh
 $ aws ec2 describe-subnets --filters "Name=tag-value,Values=tf-test"
@@ -107,7 +111,7 @@ variablesブロックで宣言した変数に値を設定するには[いくつ�
 
 **プラクティス**
 
-- `varsions.tf`内のAWSプロバイダー設定にて、Env:terraform-practice、Owner:自分の名前 のデフォルトタグを設定します
+- `versions.tf`内のAWSプロバイダー設定にて、Env:terraform-practice、Owner:自分の名前 のデフォルトタグを設定します
 - `main.tf`のvpcおよびsubentからEnvとOwnerのタグを消します
 - planします。このとき、tagsの部分のみに差分が出ることを確認します
 - 確認後applyします
@@ -158,6 +162,7 @@ VPCはCIDRが同じでもデプロイできるためVPCおよびサブネット�
 
 - `terraform destroy`で新しいリソースを削除します。
 - 退避させた`terraform.tfstate.backup`を`terraform.tfstate`として戻します。
+- planします。`No changes.`となることを確認します。これはTerraformが元のリソースを正しく認識できている（tfstateが復元された）ことを意味します。
 
 ## 2-8. .terraformについて
 
